@@ -1,0 +1,34 @@
+ void voicezh_combine_cmd(e_pres_unit1_typedef e_pres_unit1, u8 number1, u8 number2, u8 number3);
+ 
+ typedef enum e_pres_unit // 血压单位
+{
+    PRES_UNIT_MMG = 0,
+    PRES_UNIT_KPA,
+    PRES_UNIT_HEARTBEAT, // 特殊处理 心跳次数
+
+} e_pres_unit_typedef;
+
+typedef enum e_pres_unit1 // 血压单位
+{
+    _mmg = 0,
+    _kp,
+
+} e_pres_unit1_typedef;
+ 
+ void voicezh_combine_cmd(e_pres_unit1_typedef e_pres_unit1, u8 number1, u8 number2, u8 number3)
+ {
+    e_pres_unit_typedef e_pres_time;////定义一个可变参量
+ 	voice_stop_play_clear_queue();
+ 	if (e_pres_unit1 == _kp) 
+    {
+       e_pres_time=PRES_UNIT_KPA;
+ 		voice_combine_cmd(e_pres_time, number1, number2, number3);
+    }
+ 	if (e_pres_unit1 == _mmg) 
+    {
+       e_pres_time=PRES_UNIT_MMG;
+ 		voice_combine_cmd(e_pres_time, number1, number2, number3);
+    }
+ 	voice_combine_cmd_start_play(); //开始播放
+ 	new_cn_ic_voice_send_combine_cmd_server();
+ }
